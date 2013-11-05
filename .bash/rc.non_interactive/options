@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+#### Special option for non interactive mode ####
+#### can override common option (run after)  ####
+#### see global .bashrc (~/.bashrc)          ####

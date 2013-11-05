@@ -1,0 +1,32 @@
+# My own bash profile
+umask 022
+
+# include .bashrc if it exists
+function run_bashrc {
+
+    if [ -f ${HOME}/.bashrc ] 
+    then
+	source ${HOME}/.bashrc
+    fi
+}
+
+
+#### Interactive or non interactive
+# For interactive shell call .bashrc
+
+case "$-" in
+    *i*)
+	 run_bashrc;; # Interactive shell so continue
+    *)
+	return 0 ;; # not an interactive shell like with scp, so return (no prompt, etc.)
+esac
+
+
+#### Provide PATH variable
+# set PATH so it includes user's private bin if it exists
+# and all the sub directories
+test -d ${HOME}/bin && add_PATH ${HOME}/bin
+
+# Local Variables:
+# mode: sh
+# End:

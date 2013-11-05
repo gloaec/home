@@ -1,0 +1,71 @@
+#!/bin/bash
+
+MY_DEBUG "\nEntering interactive bashrc script"
+
+#### First load in interactive mode ####
+eval $(dircolors -b)
+
+#### General stuff
+
+# Define somme colors first used in start scripts
+source ~/.bash/colors
+
+## Motd
+# at logon
+# looks best on a black background...
+WIDTH=$(tput cols)
+
+LINE="${C_B_GREEN}╔═════[Ghis's Custom Terminal]"
+for (( i=31; i<$WIDTH; i++ ))
+do 
+    LINE="${LINE}═" 
+done
+echo -en "${LINE}╗${C_NC}"
+
+echo -en "${C_B_GREEN}║${C_NC} ${C_GREEN}BASH ${C_NC}${C_B_GREEN}${BASH_VERSION%.*}${C_NC}${C_GREEN} "
+
+if [ -n "$DISPLAY" ]
+then
+    echo -e "- DISPLAY on ${C_NC}${C_B_GREEN}${DISPLAY}${C_NC}"
+else
+    echo -e "- on ${C_NC}${C_B_GREEN}LINUX ${C_NC}${C_GREEN}console${C_NC}"
+fi
+
+echo -en "${C_B_GREEN}║${C_NC} ${C_GREEN}$(date '+%A %d %B %Y') ${C_NC}${C_B_GREEN}@${C_NC}${C_GREEN} $(date '+%T') ${C_NC}${C_B_GREEN}--${C_NC}${C_GREEN} $(date '+%Z')${C_NC}"
+echo 
+
+LINE="${C_B_GREEN}╚"
+for (( i=2; i<$WIDTH; i++ ))
+do 
+    LINE="${LINE}═" 
+done
+echo -en "${LINE}╝${C_NC}"
+
+## Control the display environment if not set
+
+if [ -z "$DISPLAY" ]
+then
+    if [ -z "${SSH_CLIENT}" ] && [ "${TERM}" != "linux" ] && [ "${TERM}" != "vt100" ]
+    then
+	DISPLAY=$(hostname)
+	#DISPLAY=${DISPLAY%%\!*}
+	if [ -n "$DISPLAY" ]
+	then
+	    export DISPLAY=$DISPLAY:0.0
+	else
+	    export DISPLAY=":0.0"	# fallback
+	fi
+    fi
+fi
+
+
+## Special stuff at exit time
+
+function _exit() { # function to run upon exit shell
+    clear
+}
+
+trap _exit 0
+
+
+MY_DEBUG "Exiting interactive bashrc script\n"

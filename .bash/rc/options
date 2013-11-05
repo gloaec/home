@@ -1,0 +1,21 @@
+#!/bin/bash
+#--------------
+# Some settings
+#--------------
+
+
+set -o notify
+set -o noclobber
+#set -o ignoreeof
+#set -o nounset                # Not set for bash completion
+#set -o xtrace			# usefull for debuging
+
+shopt -s cdspell
+shopt -u cdable_vars		# do not use variable as possible cd completion
+#shopt -s checkhash
+shopt -s checkwinsize
+#shopt -s mailwarn
+shopt -s no_empty_cmd_completion
+shopt -s histappend histreedit
+shopt -s extglob		# usefull for programmable completion
+

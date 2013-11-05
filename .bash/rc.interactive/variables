@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#### You can put here all variables you want ####
+#### or create your own auto-load file.      ####
+#### Don't forget to make all export needed. ####
+
+export MANWIDTH=80 EDITOR=e
+
+## Git settings from bash git-completion
+export GIT_PS1_SHOWDIRTYSTATE=true
+export GIT_PS1_SHOWSTASHSTATE=true
+export GIT_PS1_SHOWUNTRACKEDFILES=true
+export GIT_PS1_SHOWUPSTREAM="auto"

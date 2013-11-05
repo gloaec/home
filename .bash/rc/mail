@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#### Mail settings ####
+
+#### Variables
+
+## Directories
+#MAIL="${HOME}/.mail/mailbox"
+# MAILPATH=`echo ~/.mail/* | gawk ' // {$0=gensub(" ",":","g");print $0}'`
+
+# export MAILPATH

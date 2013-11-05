@@ -1,0 +1,18 @@
+#!/bin/bash
+
+MY_DEBUG "\nEntering common bashrc script"
+
+#### You can put here all the stuff you want in interactive ####
+#### and in non interactive mode                            ####
+
+## Special stuff at exit time
+
+# function _exit()		# function to run upon exit shell
+# {
+#     exit 0 # sub shell always return true
+
+# }
+# trap _exit 0
+
+
+MY_DEBUG "Exiting common bashrc script\n"

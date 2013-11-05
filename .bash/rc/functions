@@ -1,0 +1,152 @@
+#!/bin/bash
+
+#--------------
+# A few fun ones
+#--------------
+
+function reloadb () {
+    source ~/.bashrc
+}
+
+
+
+# function to add dirs to a path_var
+function add_PATH () {
+    if [ $# -lt 1 ]
+	then
+	echo "Usage : `basename $0` [dir1] [dir2] ..."
+    else
+	for arg in $@
+	do
+	    pushd ${arg} > /dev/null
+	    for rep in `find -type d | grep -v "\.$"`
+	    do
+		PATH="`pwd`/`basename ${rep}`:${PATH}"
+	    done
+	    popd > /dev/null
+	    PATH="`pwd`/`basename ${arg}`:${PATH}"
+	done
+    fi
+}
+
+# Load gpg agent if not already launched
+function load_gpg_agent () {
+    local GPG_AGENT=/usr/bin/gpg-agent
+    test -x $GPG_AGENT || return 1
+
+    if [ -n "${GPG_AGENT_INFO}" ]
+    then
+        local GPG_SOCKET=$(echo "${GPG_AGENT_INFO}" | cut -d '=' -f2 \
+            | cut -d ':' -f1)
+        [ -S "${GPG_SOCKET}" ] && return 0
+    fi
+
+    local HOSTNAME=$(/bin/hostname -s)
+    local ENV_FILE="${HOME}/.gnupg/gpg-agent-info-$HOSTNAME"
+
+    if [ -f "${ENV_FILE}" ]
+    then
+        local GPG_SOCKET=$(grep 'GPG_AGENT_INFO' ${ENV_FILE} \
+            | cut -d '=' -f2 | cut -d ':' -f1)
+        if [ -S "${GPG_SOCKET}" ]
+        then
+            export $(cat "${ENV_FILE}")
+            return 0
+        fi
+    fi
+    eval $($GPG_AGENT --daemon --write-env-file "${ENV_FILE}")
+}
+
+function remount () {
+    if [ "$#" -lt 2 ]
+    then
+        echo "Usage : $0 [mode] [mount-point]"
+        return 0
+    fi
+
+    OPTIONS="$1"
+    shift
+    MOUNT_POINTS="$@"
+
+    for mount_point in $MOUNT_POINTS
+    do
+        echo -n "$mount_point remounting with option $OPTIONS..."
+        mount -o remount,$OPTIONS $mount_point
+        if [ "$?" -ne 0 ]
+        then
+            echo "error $?"
+        else
+            echo "done."
+        fi
+    done
+}
+
+# put the identities in the adgent, if agent is not loader, load it first
+function addssh () {
+    if [ -z "$SSH_AUTH_SOCK" ]
+    then
+	eval `ssh-agent`
+    fi
+
+    `ssh-add ~/.ssh/*_key`
+}
+
+#--------------
+# and functions
+#--------------
+
+function ld() { ls $* | egrep "/$" ; }
+function lld() { ls -l $* | egrep "^(d|total)" ; }
+function llf() { ls -l $* | egrep "^[^d]" ; }
+
+#------------------------------------
+# File and string related functions :
+#------------------------------------
+
+function ff() { find . -name '*'$1'*' ; }
+function fe() { find . -name '*'$1'*' -xec $2 {} \; ; }
+
+function lowercase () {	# mouve filename to lowercase
+    for file in $@
+    do
+	filename=$(basename ${file})
+	dirname=$(dirname ${file})
+	nf=$(echo $filename | tr A-Z a-z)
+	newname="${dirname}/${nf}"
+
+	if [ "$nf" != "$filename" ]
+	then
+	    mv "file" "newname"
+	    echo "lowercase: $file --> $newname"
+	else
+	    echo "lowercase: $file not changed."
+	fi
+    done
+}
+
+
+function swap () { # swap 2 filenames around
+    local TMPFILE=tmp.$$
+    mv $1 $TMPFILE
+    mv $2 $1
+    mv $TMPFILE $2
+}
+
+# showing git branches in bash prompt
+function parse_branch ()
+{
+  BRANCH=$(__git_ps1) 
+  if git rev-parse --git-dir > /dev/null 2>&1
+  then
+    if [[ $(__git_ps1) =~ master ]]; then
+      echo -n "\[${C_B_RED}\]${BRANCH#" "}\[${C_NC}\] "
+    else
+      echo -n "\[${C_B_GREEN}\]${BRANCH#" "}\[${C_NC}\] "
+    fi
+  elif bzr nick > /dev/null 2>&1
+  then
+      echo -n "bzr"
+      bzr nick | sed -e 's/\(.*\)/(\1)/'
+  fi
+}
+

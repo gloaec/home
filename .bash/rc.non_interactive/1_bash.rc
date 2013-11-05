@@ -1,0 +1,10 @@
+#!/bin/bash
+
+MY_DEBUG "\nEntering interactive bashrc script"
+
+#### All stuff just for non interactive shell ####
+## for use in both interactive and non interactive
+## see the ~/.bash/rc/* files
+
+
+MY_DEBUG "Exiting interactive bashrc script\n"

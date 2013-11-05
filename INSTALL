@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo "Backup..."
+mkdir ~/.backup
+mv ~/.vimrc  ~/.backup
+mv -r ~/.vim  ~/.backup
+mv ~/.bashrc ~/.backup
+mv -r ~/.bash  ~/.backup
+
+echo "Copy Files.."
+cp -r ./.vim ~
+cp -r ./.bash ~
+
+echo "Symolic Links.."
+ln -s ~/.vim/vimrc ~/.vimrc
+ln -s ~/.bash/bashrc ~/.bashrc
+
+echo "Reinit Terminal !"
+source ~/.vimrc
+source ~/.bashrc

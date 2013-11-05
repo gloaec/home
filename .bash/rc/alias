@@ -1,0 +1,55 @@
+#!/bin/bash
+
+#==================================================================
+#
+# ALIASES AND FUNCTIONS
+#
+# Arguably, some functions defines here are quite big
+# (i.e. 'lowercase') but my workstation has 512Megs of RAM, so ...
+# If you want to make this file smaller, these functions can be
+#converted into scripts.
+# 
+# Many functions were taken (almost) straight from the bash-2.04
+#example
+#
+#==================================================================
+
+
+
+#-----------------
+# Personal Aliases
+#-----------------
+
+alias rm='rm -iv'
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias mkdir="mkdir --verbose"
+alias rmdir='rmdir --verbose'
+# --> prevent accidental clobbering files.
+
+alias gpg='gpg2'
+
+alias hr='date "+%A %d %B %Y @ %T -- %Z"'
+alias timestamp='date "+%Y%m%d"'
+
+alias wodim='wodim -vv'
+
+alias h='history'
+alias j='jobs -l'
+#alias r='rlogin'
+alias which='type -a'
+
+alias du='du -h'
+alias df='df -kh'
+
+alias ls='ls -CFh --color'
+alias l='ls'
+alias ll='ls -l'
+alias llm='ll | less'
+alias la='ls -lAd .*'
+alias lam='la | less'
+alias lr='ls -lR'
+alias lm='ls | less'
+
+alias less='zless'
+alias more='less'

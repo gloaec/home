@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#### Define language variables and stuff for interactive mode ####
+#### to overwrite default settings.                           ####
+
+
+## French
+# LANGUAGE=french
+# LC_ALL=french
+# LC_MESSAGE=french
+# LANG=french
+
+## Esperanto
+# LANGUAGE=esperanto
+# LC_ALL=esperanto
+# LC_MESSAGE=esperanto
+# LANG=esperanto
+
+## i18n of script
+# LANGUAGE=C
+# LC_ALL=C
+# LC_MESSAGE=C
+# LANG=C
+
+
+## Exporting the variables
+# export $LANGUAGE $LC_ALL $LC_MESSAGE $LANG

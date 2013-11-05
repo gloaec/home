@@ -1,0 +1,97 @@
+#!/bin/bash
+
+#### Some light debuging tools
+
+# set DO_DEBUG to have messages
+#DO_DEBUG=1
+
+# arguments is the text
+function MY_DEBUG {
+    local text="$*" # passed the whole if multi picees of text
+
+    if [ -n "$DO_DEBUG" ]
+    then
+	echo -e $text
+    fi
+
+    return 0
+}
+
+MY_DEBUG "\nEntering general bashrc script\n"
+
+#### Some variables for running command
+# RC_DIR_I for interactive directory scripts
+# RC_DIR_NI for non interactive
+# RC_DIR for both
+
+RC_DIR="$HOME/.bash/rc"
+RC_DIR_I="$HOME/.bash/rc.interactive"
+RC_DIR_NI="$HOME/.bash/rc.non_interactive"
+
+
+#### Function for running start scripts
+
+# run_dir : run source all the file in the directories passed
+# as arguments
+
+function run_dir {
+
+    local RUN_DIR="$@"
+    for dir in $RUN_DIR
+    do
+
+      MY_DEBUG "dir : $dir"
+      for file in $dir/*
+      do
+
+	MY_DEBUG "file : $file"
+	if [ -f "$file" ]
+	then
+	    source ${file%%'~'}
+	fi
+      done
+      
+      MY_DEBUG "\n"
+
+    done
+
+}
+
+# run_interactive is call for an interactive shell
+# it runs standard scripts and interactive ones
+function run_interactive {
+
+    MY_DEBUG "Entering run interactive function"
+
+    run_dir $RC_DIR $RC_DIR_I
+
+    MY_DEBUG "Exiting run interactive function"
+}
+
+# run_non_interactive juste run the standard scripts and the non interactive ones
+function run_non_interactive {
+
+    MY_DEBUG "Entering run non interactive function"
+
+    run_dir $RC_DIR $RC_DIR_NI
+
+    MY_DEBUG "Exiting run non interactive function"
+}
+
+
+#### Interactive shell
+# call run_interactive to provide all the prompt and variables
+# call run_non_interactive juste for stuff needed by scripts
+
+MY_DEBUG "** \$- : $- "
+
+case "$-" in
+    *i*)
+	run_interactive ;;
+    *)
+	run_non_interactive ;;
+esac
+
+MY_DEBUG "\nExiting general bashrc script\n"
+
+export TERM=xterm-256color

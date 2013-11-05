@@ -1,0 +1,5 @@
+test -f /etc/bash_completion && source /etc/bash_completion
+
+## Local Variables:
+## mode: sh
+## End:

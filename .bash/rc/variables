@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#### You can put here all variables you want ####
+#### or create your own auto-load file.      ####
+#### Don't forget to make all export needed. ####
+
+# export LANG=fr_FR.UTF-8
+export PAGER=less
+export LESS='-i -N -w -z-4 -g -e -M -X -F -Q -R -P%t?f%f \
+:stdin .?pb%pb\%:?lbLine %lb:?bbByte %bb:-...'

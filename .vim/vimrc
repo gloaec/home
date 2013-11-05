@@ -1,0 +1,25 @@
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
+colorscheme twilight256
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplModSelTarget = 1 
+let g:LatexBox_latexmk_options = "-pvc -pdfps"
+hi CursorLine   cterm=NONE ctermbg=235
+hi CursorColumn ctermbg=25 guibg=#FE008F
+nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+set grepprg=grep\ -nH\ $*
+let g:tex_flavor='latex'
+let g:Tex_DefaultTargetFormat = 'pdf'
+let g:Tex_CompileRule_pdf = 'latexmk -pdf -pvc $*'
+set iskeyword+=:
+set ts=2
+set expandtab
+"au BufWritePost *.coffee silent CoffeeMake! -b | cwindow | redraw!
+au BufRead,BufNewFile *.hamlc set ft=haml
+if $COLORTERM == 'gnome-terminal'
+  set t_Co=256
+endif
+

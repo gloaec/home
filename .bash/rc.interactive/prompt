@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# If you want to put different prompt for different terminal play with
+# the case statement.
+# Personnaly I use always the same.
+# You can add the time on the line of the prompt (see advanced bash scripting 
+# guide)
+
+export BORDERS=1
+source ~/.bash/rc.interactive/preexec
+
+case $TERM in
+  xterm*|rxvt*)
+    export TITLEBAR='\[\033]0;\u☻\h ${NEW_PWD}\007\]';;
+  *)
+    export TITLEBAR="";;
+esac
+
+function powerprompt ()
+{
+    case $UID in
+
+	0)
+      PROMPT_CMD_HISTORY="\[${C_B_BLACK}\]├(\[${C_NC}${C_B_CYAN}\]\#-\!\[${C_NC}${C_B_BLACK}\])\[${C_NC}\] "
+	    PROMPT_USER_HOST="\[${C_B_MAGENTA}\]\u\[${C_NC}${C_YELLOW}\]\[☻ \]\[${C_NC}${C_B_MAGENTA}\]\h\[$C_NC\] "
+	    PROMPT_CWD="\[$C_B_BLUE\]\w\[$C_NC\] "
+	    PROMPT_INPUT="\[$C_B_GREEN\]→ \[$C_NC\] "
+      PROMPT_BRANCH="$(parse_branch)"
+	    PS2="+    "
+	    PS3="+        " ;;
+
+	*)
+      PROMPT_CMD_HISTORY="\[${C_B_BLACK}\]├(\[${C_NC}${C_B_CYAN}\]\#-\!\[${C_NC}${C_B_BLACK}\])\[${C_NC}\] "
+	    PROMPT_USER_HOST="\[${C_B_MAGENTA}\]\u\[${C_NC}${C_YELLOW}\]\[☻ \]\[${C_NC}${C_B_MAGENTA}\]\h\[$C_NC\] "
+	    PROMPT_CWD="\[$C_B_BLUE\]\w\[$C_NC\] "
+	    PROMPT_INPUT="\[$C_B_GREEN\]→ \[$C_NC\] "
+      PROMPT_BRANCH="$(parse_branch)"
+	    PS2="\[${C_B_BLACK}\]│\[${C_NC}\] "
+	    PS3="\[${C_B_BLACK}\]│\[${C_NC}\]        " ;;
+    esac
+    PS1="$TITLEBAR${PROMPT_CMD_HISTORY}${PROMPT_USER_HOST}${PROMPT_CWD}${PROMPT_BRANCH}${PROMPT_INPUT}"
+    if [[ "${BORDERS}" == "1" ]]; then
+        WIDTH=$(tput cols)
+        LINE="\[${C_B_BLACK}\]┌"
+        for (( i=2; i<$WIDTH; i++ ))
+        do 
+            LINE="${LINE}─" 
+        done
+        PS1="${LINE}┐\[${C_NC}\]\n${PS1}"
+    fi
+}
+
+PROMPT_COMMAND=powerprompt
+preexec() { 
+    if [[ "${BORDERS}" == "1" ]]; then
+        WIDTH=$(tput cols)
+        LINE="${C_B_BLACK}└"
+        for (( i=2; i<$WIDTH; i++ ))
+        do 
+            LINE="${LINE}─" 
+        done
+        echo -e "${LINE}┘${C_NC}"
+    fi
+}
+preexec_install
+PROMPT_COMMAND="${PROMPT_COMMAND} preexec_invoke_cmd"
+

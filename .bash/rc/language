@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#### Define language variables and stuff ####
+
+#### Variables
+
+## French
+# LANGUAGE="fr_FR@EURO"
+# LC_ALL="fr_FR@EURO"
+# LANG="fr_FR@EURO"
+
+## Esperanto
+# LANGUAGE=esperanto
+# LC_ALL=esperanto
+# LC_MESSAGE=esperanto
+# LANG=esperanto
+
+
+## Exporting the variables
+# export $LANGUAGE $LC_ALL $LC_MESSAGE $LANG
